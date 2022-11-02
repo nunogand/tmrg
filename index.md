@@ -1,0 +1,127 @@
+                     
+<html>
+<head>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
+  <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet">
+  <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet">
+  <style type="text/css">
+
+    html,
+    body,
+    #container {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  
+</style>
+</head>
+<body>
+  
+  <div id="container"></div>
+  
+
+  <script>
+
+    anychart.onDocumentReady(function () {
+      // create data set on our data
+      var dataSet = anychart.data.set([
+        ['Nail polish', 6814, 3054, 4376, 4229],
+        ['Eyebrow pencil', 7012, 5067, 8987, 3932],
+        ['Lipstick', 8814, 9054, 4376, 9256]
+      ]);
+
+      // map data for the first series, take x from the zero column and value from the first column of data set
+      var firstSeriesData = dataSet.mapAs({ x: 0, value: 1 });
+
+      // map data for the second series, take x from the zero column and value from the second column of data set
+      var secondSeriesData = dataSet.mapAs({ x: 0, value: 2 });
+
+      // map data for the third series, take x from the zero column and value from the third column of data set
+      var thirdSeriesData = dataSet.mapAs({ x: 0, value: 3 });
+
+      // map data for the fourth series, take x from the zero column and value from the fourth column of data set
+      var fourthSeriesData = dataSet.mapAs({ x: 0, value: 4 });
+
+      // create bar chart
+      var chart = anychart.bar();
+
+      // turn on chart animation
+      chart.animation(true);
+
+      chart.padding([10, 40, 5, 20]);
+
+      // set chart title text settings
+      chart.title('Top 3 Products with Region Sales Data');
+
+      // set scale minimum
+      chart.yScale().minimum(0);
+
+      chart.xAxis().labels().rotation(-90).padding([0, 0, 20, 0]);
+
+      chart.yAxis().labels().format('{%Value}{groupsSeparator: }');
+
+      // set titles for Y-axis
+      chart.yAxis().title('Revenue in Dollars');
+
+      // helper function to setup settings for series
+      var setupSeries = function (series, name) {
+        series.name(name);
+        series.hovered().labels(false);
+
+        series
+          .labels()
+          .enabled(true)
+          .position('right-center')
+          .anchor('left-center')
+          .format('${%Value}{groupsSeparator: }');
+
+        series
+          .tooltip()
+          .position('right')
+          .anchor('left-center')
+          .offsetX(5)
+          .offsetY(0)
+          .titleFormat('{%X}')
+          .format('{%SeriesName} : ${%Value}{groupsSeparator: }');
+      };
+
+      // temp variable to store series instance
+      var series;
+
+      // create first series with mapped data
+      series = chart.bar(firstSeriesData);
+      setupSeries(series, 'Florida');
+
+      // create second series with mapped data
+      series = chart.bar(secondSeriesData);
+      setupSeries(series, 'Texas');
+
+      // create third series with mapped data
+      series = chart.bar(thirdSeriesData);
+      setupSeries(series, 'Arizona');
+
+      // create fourth series with mapped data
+      series = chart.bar(fourthSeriesData);
+      setupSeries(series, 'Nevada');
+
+      // turn on legend
+      chart.legend().enabled(true).fontSize(13).padding([0, 0, 20, 0]);
+
+      chart.interactivity().hoverMode('single');
+      chart.tooltip().positionMode('point');
+
+      // set container id for the chart
+      chart.container('container');
+      // initiate chart drawing
+      chart.draw();
+    });
+  
+</script>
+</body>
+</html>
+
+                
